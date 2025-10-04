@@ -1,0 +1,14 @@
+# Ignore dataset folder
+data/
+
+# Optional — ignore common temporary or cache files
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.DS_Store
+
+# virtual environment files
+DL_LAB_env/
+
+# python version specific files
+.python-version
