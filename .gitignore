@@ -8,7 +8,7 @@ __pycache__/
 .DS_Store
 
 # virtual environment files
-DL_LAB_env/
+DL_LAB_env/**
 
 # python version specific files
 .python-version
