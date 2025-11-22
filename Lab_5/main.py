@@ -1,6 +1,8 @@
 import matplotlib.pyplot as plt
 import os
 from PIL import Image
+from torchvision import transforms
+import torch
 from data_loader import load_images
 from model import load_model, deep_dream_multiscale_with_jitter
 from utils import deprocess
@@ -17,6 +19,10 @@ image_folder = "data"
 output_folder = "model_images"
 dreamed_output_folder = "data\\output"
 os.makedirs(output_folder, exist_ok=True)
+os.makedirs(dreamed_output_folder, exist_ok=True)
+
+# Image resize transform to reduce GPU memory usage
+resize_transform = transforms.Resize((512, 512))  # reduce large images to 512x512
 
 # Load model and images
 print('Loading Model...')
@@ -26,7 +32,16 @@ images = load_images(image_folder)
 
 for fname, input_image in images:
     print(f"\nProcessing {fname}")
-    dreamed_image, loss_history = deep_dream_multiscale_with_jitter(model, input_image, iterations, lr, layer_names_weights, num_octaves, octave_scale)
+
+    # Resize input image to prevent CUDA OOM
+    pil_image = transforms.ToPILImage()(input_image.squeeze(0).cpu())  # convert tensor to PIL
+    pil_image = resize_transform(pil_image)
+    input_image = transforms.ToTensor()(pil_image).unsqueeze(0).to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
+
+    # Generate DeepDream image and loss history
+    dreamed_image, loss_history = deep_dream_multiscale_with_jitter(
+        model, input_image, iterations, lr, layer_names_weights, num_octaves, octave_scale
+    )
     result = deprocess(dreamed_image)
 
     # Save dreamed image
@@ -46,3 +61,6 @@ for fname, input_image in images:
     plt.savefig(plot_fname)
     plt.close()
     print(f"Saved loss plot as {plot_fname}")
+
+    # Free GPU memory after each image to prevent OOM
+    torch.cuda.empty_cache()
