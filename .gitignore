@@ -34,3 +34,4 @@ DL_LAB_env/**
 # -----------------------------
 .python-version
 
+.DS_Store
