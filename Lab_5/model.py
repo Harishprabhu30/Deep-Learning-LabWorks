@@ -19,6 +19,7 @@ def deep_dream_with_jitter(model, image, iterations, lr, layer_names_weights, tv
     image = image.clone().requires_grad_(True).to(device)
     activations = {}
     hooks = []
+    loss_history = []  # <-- store losses
 
     def get_activation(name):
         def hook(model, input, output):
@@ -49,19 +50,24 @@ def deep_dream_with_jitter(model, image, iterations, lr, layer_names_weights, tv
             image.grad.data = remove_jitter(image.grad.data, jitter_amounts, orig_shape)
         optimizer.step()
         image.data.clamp_(-1.5, 1.5)
+
+        loss_history.append(loss.item())  # <-- log loss
+
         if i % 10 == 0:
             print(f"Iteration {i}, Loss: {loss.item():.4f}")
 
     for hook in hooks:
         hook.remove()
 
-    return image.detach()
+    return image.detach(), loss_history
 
 # Multi-scale Deep Dream
-def deep_dream_multiscale_with_jitter(model, base_image, iterations, lr, layer_names_weights, num_octaves=5, octave_scale=1.4, jitter=32):
+def deep_dream_multiscale_with_jitter(model, base_image, iterations, lr, layer_names_weights, 
+                                     num_octaves=5, octave_scale=1.4, jitter=32):
     import torch.nn as nn
     image = base_image.clone()
     octaves = []
+    all_loss_history = []
 
     for i in range(num_octaves):
         scale_factor = octave_scale ** (-i)
@@ -75,8 +81,9 @@ def deep_dream_multiscale_with_jitter(model, base_image, iterations, lr, layer_n
         if detail.shape != octave_image.shape:
             detail = nn.functional.interpolate(detail, size=octave_image.shape[-2:], mode='bilinear', align_corners=False)
         input_image = octave_image + detail
-        dreamed_image = deep_dream_with_jitter(model, input_image, iterations, lr, layer_names_weights,
-                                              jitter=max(int(jitter * octave_scale**(-octave)), 8))
+        dreamed_image, loss_history = deep_dream_with_jitter(model, input_image, iterations, lr, layer_names_weights,
+                                                            jitter=max(int(jitter * octave_scale**(-octave)), 8))
+        all_loss_history.extend(loss_history)  # collect all losses
         detail = dreamed_image - octave_image
 
-    return dreamed_image
+    return dreamed_image, all_loss_history
