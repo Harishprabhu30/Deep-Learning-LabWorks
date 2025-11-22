@@ -1,7 +1,8 @@
 import os, shutil, random
 
-SOURCE = "/Users/harishprabhu/desktop/subjects/sem_3/deep_learning/lab_3/data/train"
-VAL = "/Users/harishprabhu/desktop/subjects/sem_3/deep_learning/lab_3/data/val"
+SOURCE = "E:\\Studies\\Mechanical\\Additional\\Harish\\Deep-Learning-LabWorks\\Lab_3\\data\\train"
+VAL = "E:\\Studies\\Mechanical\\Additional\\Harish\\Deep-Learning-LabWorks\\Lab_3\\data\\val"
+
 SPLIT = 0.2  # 20%
 
 os.makedirs(f"{VAL}/cats", exist_ok=True)

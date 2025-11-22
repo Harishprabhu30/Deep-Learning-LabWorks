@@ -14,12 +14,14 @@ layer_names_weights = {'inception4a': 1.0}
 
 # Folder setup
 image_folder = "data"
-output_folder = "Lab_5/model_images"
-dreamed_output_folder = "Lab_5/data/output"
+output_folder = "model_images"
+dreamed_output_folder = "data\\output"
 os.makedirs(output_folder, exist_ok=True)
 
 # Load model and images
+print('Loading Model...')
 model = load_model()
+print('Model Loaded.')
 images = load_images(image_folder)
 
 for fname, input_image in images:

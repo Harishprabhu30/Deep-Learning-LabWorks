@@ -10,15 +10,16 @@ import matplotlib.pyplot as plt
 from losses import ContentLoss, StyleLoss
 
 # ----- FOLDERS -----
-content_img_path = './data/images/mycontent.jpg'  # manually changeable
-style_folder = './data/styles/'
-output_folder = './data/output/'
-plot_folder = './Lab_4/model_images/'
+content_img_path = 'data\\content\\Kutty.JPG'  # manually changeable
+style_folder = 'data\\styles'
+output_folder = 'data\\output'
+plot_folder = 'model_images'
 
 os.makedirs(output_folder, exist_ok=True)
 os.makedirs(plot_folder, exist_ok=True)
 
 # ----- LOAD CONTENT IMAGE -----
+print('Loading Content Images.')
 content_img = image_loader(content_img_path)
 input_img_original = content_img.clone()  # reset for each style
 
@@ -27,15 +28,16 @@ cnn_normalization_mean = torch.tensor([0.485, 0.456, 0.406]).to(device)
 cnn_normalization_std = torch.tensor([0.229, 0.224, 0.225]).to(device)
 
 # ----- LOAD PRETRAINED VGG19 -----
+print('Loading Pre-Trained Model.')
 cnn = vgg19(weights=VGG19_Weights.DEFAULT).features.eval()
 
 # ----- LIST STYLE IMAGES -----
 style_images = list_images(style_folder)
 
 # ----- STYLE TRANSFER PARAMETERS -----
-num_steps = 300
+num_steps = 400
 style_weight = 1e6
-content_weight = 1
+content_weight = 6
 
 # ----- LOOP OVER STYLE IMAGES -----
 for s_path in style_images:

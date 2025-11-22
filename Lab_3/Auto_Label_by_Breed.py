@@ -1,8 +1,8 @@
 import os
 import shutil
 
-SOURCE = "/Users/harishprabhu/desktop/subjects/sem_3/deep_learning/lab_3/images"     # change to your folder
-TARGET = "/Users/harishprabhu/desktop/subjects/sem_3/deep_learning/lab_3/data/train"
+SOURCE = "E:\\Studies\\Mechanical\\Additional\\Harish\\Deep-Learning-LabWorks\\Lab_3\\images"  # Use double backslashes
+TARGET = "E:\\Studies\\Mechanical\\Additional\\Harish\\Deep-Learning-LabWorks\\Lab_3\\data\\train"  # Use double backslashes
 
 # Full cat breed names (lowercase)
 cat_breeds = {
