@@ -1,14 +1,38 @@
-# Ignore dataset folder
-data/
+# -----------------------------
+# Dataset folders (ignore all files inside)
+# -----------------------------
+Lab_3/data/train/cats/*.jpg
+Lab_3/data/train/dogs/*.jpg
+Lab_3/cats_dogs_10/images/*.jpg
 
-# Optional — ignore common temporary or cache files
+# -----------------------------
+# Ignore ALL image files (JPG, PNG, JPEG)
+# -----------------------------
+*.jpg
+*.jpeg
+*.png
+
+# -----------------------------
+# Ignore ZIP files
+# -----------------------------
+*.zip
+Lecture_Notes_DL/*.zip
+
+# -----------------------------
+# Optional — ignore temp/cache files
+# -----------------------------
 __pycache__/
 *.pyc
 .ipynb_checkpoints/
 .DS_Store
 
-# virtual environment files
+# -----------------------------
+# Virtual environment files
+# -----------------------------
 DL_LAB_env/
 
-# python version specific files
+# -----------------------------
+# Python version specific files
+# -----------------------------
 .python-version
+
