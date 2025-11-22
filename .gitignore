@@ -26,10 +26,8 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 
-# -----------------------------
-# Virtual environment files
-# -----------------------------
-DL_LAB_env/
+# virtual environment files
+DL_LAB_env/**
 
 # -----------------------------
 # Python version specific files
