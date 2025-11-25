@@ -8,7 +8,7 @@ from models import build_model
 from data_loader import create_dataloaders
 from evaluate import evaluate_model
 
-MODEL_NAME = "mobilenet"  # choose model
+MODEL_NAME = "efficientnet"  # choose model
 IMG_SIZE = 224
 NUM_SAMPLES = 10
 SAMPLE_SAVE_DIR = "sample_predictions"

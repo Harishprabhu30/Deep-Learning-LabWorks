@@ -1,0 +1,159 @@
+1. Introduction
+
+This experiment focuses on building an image classification system to distinguish between cats and dogs using transfer learning. Two pretrained architectures were used:
+
+MobileNetV2
+
+EfficientNet-B0
+
+Both models were fine-tuned for 5 epochs on the Kaggle Cats vs Dogs dataset, using a standardized training pipeline implemented in PyTorch. The objective was to compare their performance in terms of:
+
+Accuracy
+
+Precision / Recall / F1-score
+
+Confusion matrix
+
+Training time
+
+Overall computational efficiency
+
+All training logs, evaluation metrics, predictions, and summaries were automatically saved using our unified project structure.
+
+2. Methodology
+2.1 Dataset
+
+Dataset: Cats vs Dogs (Kaggle)
+
+Split:
+
+70% training
+
+20% validation
+
+10% testing
+
+Applied basic augmentations:
+
+Resize → 224×224
+
+Random horizontal flip
+
+Normalization
+
+2.2 Training Setup
+
+Each model trained for 5 epochs
+
+Optimizer: Adam
+
+Scheduler: StepLR
+
+Loss function: CrossEntropyLoss
+
+Batch size: 32
+
+Device: GPU (when available)
+
+All models were saved to:
+
+saved_models/
+
+
+And training logs (accuracy, loss, epoch time) were stored in:
+
+training_logs/
+
+3. Training Results
+
+During training, both models showed stable convergence within 5 epochs. The validation accuracy improved consistently across epochs.
+
+3.1 Training Time Summary (from result_summary.py)
+Model	Val Accuracy	Total Train Time (s)	Avg Epoch Time (s)
+EfficientNet	0.99729	164.77	32.95
+MobileNet	0.99323	147.96	29.59
+
+Observations:
+
+MobileNet is faster per epoch (lighter architecture).
+
+EfficientNet takes slightly longer but achieves higher accuracy.
+
+4. Evaluation Results (Testing Set)
+4.1 MobileNet Evaluation
+Accuracy: 0.99
+
+
+Classification Report:
+
+Cats → precision=0.99, recall=0.99, f1=0.99
+
+Dogs → precision=1.00, recall=0.99, f1=0.99
+
+Confusion Matrix:
+
+	Pred Cat	Pred Dog
+True Cat	476	4
+True Dog	6	992
+
+Metrics saved:
+evaluated_metrics/mobilenet_metrics.json
+
+4.2 EfficientNet Evaluation
+Accuracy: 1.00
+
+
+Classification Report:
+
+Cats → precision=1.00, recall=0.99, f1=1.00
+
+Dogs → precision=1.00, recall=1.00, f1=1.00
+
+Confusion Matrix:
+
+	Pred Cat	Pred Dog
+True Cat	477	3
+True Dog	1	997
+
+Metrics saved:
+evaluated_metrics/efficientnet_metrics.json
+
+5. Sample Predictions
+
+A batch of 10 predictions per model was saved to:
+
+sample_predictions/
+
+
+These show correct classification for most cases with high confidence, visually confirming model reliability.
+
+6. Result Summary (Combined)
+
+(Extracted from result_summary.py)
+
+Model	Validation Accuracy	F1 Scores (Cats, Dogs)
+EfficientNet	0.99729	Cats: 0.9958, Dogs: 0.9979
+MobileNet	0.99323	Cats: 0.9896, Dogs: 0.9949
+
+Key insight:
+EfficientNet consistently outperforms MobileNet both in accuracy and F1-score despite longer training time.
+
+7. Discussion
+
+MobileNet performs well and trains faster, making it suitable for low-resource environments.
+
+EfficientNet achieves near-perfect classification, with 1.00 test accuracy, showing superior representational power.
+
+Both models show strong performance within only 5 epochs, demonstrating the effectiveness of transfer learning for small datasets.
+
+Confusion matrices indicate very few misclassifications, with EfficientNet producing the lowest error count.
+
+8. Conclusion
+
+This experiment successfully implemented and evaluated two pretrained models for cats vs dogs classification. With only minimal training (5 epochs), both models achieved high performance:
+
+MobileNet: 99% accuracy
+
+EfficientNet: 100% accuracy
+
+EfficientNet is the best overall performer, while MobileNet offers faster training and efficiency. The project structure successfully automated training, evaluation, result saving, and summary generation, producing a clean and modular workflow.

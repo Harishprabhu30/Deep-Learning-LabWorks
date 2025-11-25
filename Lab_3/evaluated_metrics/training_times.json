@@ -1,0 +1,10 @@
+{
+    "mobilenet": {
+        "total_time_sec": 147.9619266986847,
+        "avg_epoch_time_sec": 29.59238533973694
+    },
+    "efficientnet": {
+        "total_time_sec": 164.76616382598877,
+        "avg_epoch_time_sec": 32.953232765197754
+    }
+}
