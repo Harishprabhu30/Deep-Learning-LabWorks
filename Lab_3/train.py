@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
-def train_model(model, train_loader, val_loader, epochs=5, lr=1e-4):
+def train_model(model, train_loader, val_loader, epochs=10, lr=1e-4):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model = model.to(device)
     criterion = nn.CrossEntropyLoss()

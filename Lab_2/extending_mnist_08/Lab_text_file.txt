@@ -1,0 +1,190 @@
+1. Introduction
+
+The purpose of this laboratory task is to extend the classical MNIST digit-classification problem into a multi-task learning setup.
+The provided code from the lecture performs three simultaneous predictions:
+
+Digit classification (0–9)
+
+Parity classification (even = 0, odd = 1)
+
+Threshold classification (<5 = 0, ≥5 = 1)
+
+The goal of this lab is to:
+
+Run the lecturer’s baseline implementation
+
+Modify and improve the model/training process
+
+Compare performance before and after modifications
+
+Conclude whether improvements helped and explain why
+
+MNIST is a relatively simple dataset, therefore the task also demonstrates the limitations of improving an already high-performing model.
+
+2. Baseline Results
+
+The baseline network is a 3-layer CNN with three output heads:
+
+fc2_digit (10 classes)
+
+fc2_parity (2 classes)
+
+fc2_threshold (2 classes)
+
+The model was trained for 10 epochs using Adam optimizer and StepLR scheduler.
+
+Baseline Test Results:
+
+Test Loss: 0.0518
+
+Digit Accuracy: 99.24%
+
+Parity Accuracy: 99.56%
+
+Threshold Accuracy: 99.46%
+
+These results show that the model already achieves near-ceiling accuracy on MNIST.
+
+Baseline Curves
+
+👉 Insert baseline training/validation plots here
+(Plot 1: Loss curves)
+(Plot 2–4: Digit / Parity / Threshold accuracies)
+
+3. Modifications Attempted
+
+Below are all modifications tested to improve performance.
+Each modification includes a short explanation of what was changed and why.
+
+3.1 Increase Training Epochs
+
+Increased epochs from 10 → 20.
+
+Expected to allow the model to converge more deeply.
+
+Comment in code:
+
+num_epochs = 20  # increased for deeper convergence
+
+3.2 Add Batch Normalization
+
+Inserted BatchNorm after convolution layers to stabilize activations.
+
+Comment in code:
+
+# Added BatchNorm for better normalization
+self.bn1 = nn.BatchNorm2d(32)
+self.bn2 = nn.BatchNorm2d(64)
+self.bn3 = nn.BatchNorm2d(128)
+
+3.3 Add Dropout Layers
+
+Added dropout after dense layers to reduce overfitting.
+
+Comment in code:
+
+# Added dropout for regularization
+self.dropout = nn.Dropout(0.3)
+
+3.4 Replace Flatten with Global Average Pooling
+
+Reduced fully connected parameters and improved generalization.
+
+Comment in code:
+
+# Replaced flatten with adaptive average pooling
+self.gap = nn.AdaptiveAvgPool2d(1)
+
+3.5 Adjust Multi-Task Loss Weights
+
+Gave more weight to digit classification since it is the main task.
+
+Comment in code:
+
+loss = loss_digit * 2 + loss_parity + loss_threshold  # custom weighting
+
+4. Observations
+
+After implementing the above improvements, the following behaviors were observed:
+
+4.1 Increasing Epochs
+
+Loss began oscillating instead of steadily decreasing.
+
+Accuracy remained almost identical.
+
+MNIST is small; too many epochs lead to over-optimization noise, not improvement.
+
+4.2 BatchNorm + Dropout + Global Average Pooling
+
+Training became more stable, with smoother curves.
+
+However, accuracy did not significantly improve.
+
+MNIST is too simple for these modifications to produce meaningful gains.
+
+The baseline model was already achieving 99%+, so improvements are marginal.
+
+Test accuracy remained around:
+
+Digit: ~99.23%
+
+Parity: ~99.50%
+
+Threshold: ~99.46%
+
+Essentially unchanged.
+
+4.3 Multi-Task Loss Weighting
+
+At 20 epochs: performance worsened slightly
+
+At 10 epochs: accuracy was almost identical to baseline
+
+Because parity and threshold tasks are trivially easy, weighting does not meaningfully affect learning.
+
+4.4 Summary of Observations
+
+The dataset is simple → model already reaches near saturation
+
+Architectural improvements help on larger datasets, not MNIST
+
+MNIST digit accuracy tends to saturate around 99.2–99.4% for compact CNNs
+
+Parity and threshold tasks are almost always predicted correctly (>99.4%)
+
+Graphs After Modifications
+
+👉 Insert modified model graphs here
+(Similar to baseline graphs: Loss, accuracies)
+
+5. Conclusion
+
+In this laboratory assignment, a multi-task CNN was trained to predict digit class, parity, and threshold simultaneously.
+The baseline model already achieved very high accuracy (≈99.2–99.5%), and the modifications attempted—including BatchNorm, dropout, global average pooling, extended training, and multi-task loss weighting—resulted in minimal accuracy improvement.
+
+This is expected because:
+
+MNIST is a highly saturated benchmark
+
+The model is already sufficiently expressive
+
+Parity and threshold tasks are trivial and do not demand deeper learning
+
+Final Key Takeaways
+
+The architecture from the lecture is strong enough for MNIST
+
+Improvements added stability but did not boost accuracy
+
+Further improvements would require:
+
+Data augmentation
+
+More complex datasets
+
+Noise robustness experiments
+
+Transfer learning on harder tasks
+
+Overall, the lab demonstrates how multi-task learning works well on simple datasets and how model improvements have diminishing returns once performance approaches the dataset's inherent limit.
