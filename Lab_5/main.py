@@ -8,16 +8,21 @@ from model import load_model, deep_dream_multiscale_with_jitter
 from utils import deprocess
 
 # Parameters
-iterations = 50
-lr = 0.01
-num_octaves = 5
-octave_scale = 1.4
-layer_names_weights = {'inception4a': 1.0}
+iterations = 20
+lr = 0.008
+num_octaves = 3
+octave_scale = 1.0
+layer_names_weights = {
+    'inception3a': 0.1,
+    'inception4a': 0.2,
+    'inception4d': 0.3,
+    'inception4e': 0.4
+}
 
 # Folder setup
-image_folder = "data"
-output_folder = "model_images"
-dreamed_output_folder = "data\\output"
+image_folder = "/home/vgtu/Downloads/Harish_Thesis/Deep-Learning-LabWorks/Lab_5/data"
+output_folder = "/home/vgtu/Downloads/Harish_Thesis/Deep-Learning-LabWorks/Lab_5/model_images"
+dreamed_output_folder = "/home/vgtu/Downloads/Harish_Thesis/Deep-Learning-LabWorks/Lab_5/data/output"
 os.makedirs(output_folder, exist_ok=True)
 os.makedirs(dreamed_output_folder, exist_ok=True)
 

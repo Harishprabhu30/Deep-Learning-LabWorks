@@ -1,7 +1,7 @@
 import os, shutil, random
 
-SOURCE = "E:\\Studies\\Mechanical\\Additional\\Harish\\Deep-Learning-LabWorks\\Lab_3\\data\\train"
-VAL = "E:\\Studies\\Mechanical\\Additional\\Harish\\Deep-Learning-LabWorks\\Lab_3\\data\\val"
+SOURCE = "/home/vgtu/Downloads/Harish_Thesis/Deep-Learning-LabWorks/Lab_3/data/train"
+VAL = "/home/vgtu/Downloads/Harish_Thesis/Deep-Learning-LabWorks/Lab_3/data/val"
 
 SPLIT = 0.2  # 20%
 

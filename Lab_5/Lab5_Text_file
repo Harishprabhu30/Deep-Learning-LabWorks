@@ -1,0 +1,226 @@
+1. Introduction
+
+Deep Dream is a computer vision technique that uses a pretrained convolutional neural network (CNN) to enhance and modify patterns within an image. By maximizing activations of selected layers in the network, the model generates dream-like, surreal hallucinations, often creating patterns resembling eyes, animals, or abstract shapes.
+
+In this lab, we use GoogLeNet (Inception v1), a CNN with inception modules, which is particularly well-suited for Deep Dream due to its hierarchical representation of image features. The lab experiments explore the effect of different parameters, layers, and optimization settings on the generated images.
+
+Key techniques explored:
+
+Multi-scale (octaves) processing to enhance patterns at different resolutions
+
+Jitter to prevent artifacts
+
+Layer selection and weighting to control hallucination style
+
+Total Variation (TV) loss to reduce high-frequency noise
+
+2. Baseline Setup
+
+The baseline pipeline consists of:
+
+data_loader.py – loads images from a folder and converts them to tensors.
+
+model.py – loads pretrained GoogLeNet, implements Deep Dream with multiscale and jitter, and calculates loss.
+
+utils.py – contains helper functions such as deprocess, total_variation_loss, and jitter functions.
+
+main.py – orchestrates the workflow: loads images, applies Deep Dream, saves output images, and plots loss curves.
+
+Initial parameters (baseline for Version 1):
+
+Iterations: 50
+
+Learning rate (LR): 0.01
+
+Number of octaves: 5
+
+Octave scale: 1.4
+
+Layers & weights: {'inception4a': 1.0}
+
+Jitter: 32
+
+Pipeline:
+
+Load image → preprocess → send to GPU
+
+Apply Deep Dream multiscale with jitter
+
+Store loss history and generated image
+
+Save dreamed image and plot loss
+
+
+3. Experiments & Parameter Modifications
+
+To study the effect of different parameters, four versions of Deep Dream images were generated. Each version progressively adjusts parameters to control hallucination intensity and preserve the original image.
+
+Version 1 – Strong hallucination
+
+Parameters:
+
+Iterations: 50
+
+LR: 0.01
+
+Num octaves: 5
+
+Octave scale: 1.4
+
+Layers & weights: {'inception4a': 1.0}
+
+Jitter: 32
+
+Observations:
+
+Extremely strong hallucinations
+
+Hypnotic circular patterns, eyes, and vivid colors dominate
+
+Original images almost completely lost
+
+Images:
+
+Original image: [Insert image here]
+
+Dreamed image: [Insert dreamed image here]
+
+Loss graph: [Insert loss curve here]
+
+Version 2 – Moderate hallucination
+
+Parameters:
+
+Iterations: 25
+
+LR: 0.01
+
+Num octaves: 3
+
+Octave scale: 1.2
+
+Layers & weights: {'inception4a': 0.5}
+
+Jitter: 32
+
+Observations:
+
+Original image shapes visible
+
+Hypnotic circles and eyes still present, but less intense
+
+Patterns are more structured and slightly calmer
+
+Images:
+
+Original image: [Insert image here]
+
+Dreamed image: [Insert dreamed image here]
+
+Loss graph: [Insert loss curve here]
+
+Version 3 – Structured hallucinations
+
+Parameters:
+
+Iterations: 30
+
+LR: 0.008
+
+Num octaves: 3
+
+Octave scale: 1.2
+
+Layers & weights: {'inception4a': 0.3, 'inception4e': 0.7}
+
+Jitter: 16
+
+Observations:
+
+Original image shapes clearly visible
+
+Eyes less frequent, triangular and structured patterns appear
+
+Overall balance improved, hallucinations visually appealing
+
+Images:
+
+Original image: [Insert image here]
+
+Dreamed image: [Insert dreamed image here]
+
+Loss graph: [Insert loss curve here]
+
+Version 4 – Subtle enhancement (Final Version)
+
+Parameters:
+
+Iterations: 20
+
+LR: 0.008
+
+Num octaves: 3
+
+Octave scale: 1.0
+
+Layers & weights:
+{'inception3a': 0.1, 'inception4a': 0.2, 'inception4d': 0.3, 'inception4e': 0.4}
+
+Jitter: 16
+
+Observations:
+
+Original image largely preserved in color and shape
+
+Hallucinations subtle, less hypnotic, eyes appear sparsely
+
+Patterns blend softly with original image
+
+Loss curve shows slow, stable fluctuation
+
+Images:
+
+Original image: [Insert image here]
+
+Dreamed image: [Insert dreamed image here]
+
+Loss graph: [Insert loss curve here]
+
+
+4. Comparisons & Analysis
+
+Iteration & layer weight: Higher iterations and stronger weights → more intense hallucinations; reducing them preserves original image.
+
+Layer selection: Early layers produce texture-like patterns; later layers introduce structured, object-like features.
+
+Octaves & octave scale: More octaves and higher scale → exaggerated effects; fewer octaves preserve color and shape.
+
+Jitter: Reducing jitter stabilizes hallucinations and prevents artifacts.
+
+TV loss: Ensures smooth patterns, reducing high-frequency noise.
+
+The progression from Version 1 → Version 4 shows how tuning parameters can control hallucination intensity and preserve the original image, providing hands-on insight into Deep Dream mechanics.
+
+
+
+| Version | Iterations | LR    | Octaves | Octave Scale | Layers & Weights                                                          | Jitter | Observations                                                                                                    |
+| ------- | ---------- | ----- | ------- | ------------ | ------------------------------------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------- |
+| 1       | 50         | 0.01  | 5       | 1.4          | {'inception4a': 1.0}                                                      | 32     | Strong hallucinations, hypnotic circles, eyes, original image almost invisible                                  |
+| 2       | 25         | 0.01  | 3       | 1.2          | {'inception4a': 0.5}                                                      | 32     | Original shapes visible, patterns & eyes still present, hypnotic circles reduced                                |
+| 3       | 30         | 0.008 | 3       | 1.2          | {'inception4a':0.3,'inception4e':0.7}                                     | 16     | Original shapes visible, hallucinated eyes less frequent, triangular patterns appear, better overall balance    |
+| 4       | 20         | 0.008 | 3       | 1.0          | {'inception3a':0.1,'inception4a':0.2,'inception4d':0.3,'inception4e':0.4} | 16     | Original image mostly preserved, hallucinations subtle, eyes, triangles, soft RGB colors, slow fluctuating loss |
+
+
+
+
+5. Conclusion
+
+Deep Dream can transform images from subtle texture enhancement to surreal, highly hallucinatory visuals.
+
+Parameter tuning allows control over pattern intensity, original image preservation, and visual style.
+
+Combining layers at different depths creates more visually appealing and structured hallucinations.
+
+Final version demonstrates a subtle enhancement, preserving original image colors while adding artistic patterns.
+
+This lab provides practical experience with pretrained CNNs, feature visualization, and neural network interpretability.

@@ -14,7 +14,7 @@ def load_model():
     return model
 
 # Deep Dream with jitter
-def deep_dream_with_jitter(model, image, iterations, lr, layer_names_weights, tv_weight=1e-7, jitter=32):
+def deep_dream_with_jitter(model, image, iterations, lr, layer_names_weights, tv_weight=1e-7, jitter=16):
     orig_shape = image.shape
     image = image.clone().requires_grad_(True).to(device)
     activations = {}
